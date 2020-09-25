@@ -1,0 +1,41 @@
+<iscontent type="text/xml" charset="UTF-8" compact="true"/>
+<isset name="product" value="${pdict.product}" scope="page" />
+<isset name="name" value="${pdict.name}" scope="page" />
+<item>
+    <g:id>${product.id}</g:id>
+    <g:title>${dw.util.StringUtils.stringToXml(product.productName)}</g:title>
+    <g:description>${dw.util.StringUtils.stringToXml(product.longDescription)}</g:description>
+    <g:link>https://www.thebodyshop.com.br/p/${name}/${product.id}</g:link>
+    <g:image_link>https://production-na01-natura.demandware.net${product.images.large[0].url}</g:image_link>
+    <g:condition>new</g:condition>
+    <isif condition="${product.available}">
+        <g:availability>in stock</g:availability>
+    <iselse/>
+        <g:availability>out of stock</g:availability>
+    </isif>
+    <isif condition="${product.price.type === 'range'}">
+        <g:price>${product.price.max.sales.decimalPrice} ${product.price.max.sales.currency}</g:price>
+        <g:sale_price>${product.price.min.sales.decimalPrice} ${product.price.min.sales.currency}</g:sale_price>
+    <iselseif condition="${product.price.list.value != null}" />
+        <g:price>${product.price.list.decimalPrice} ${product.price.list.currency}</g:price>
+        <g:sale_price>${product.price.sales.decimalPrice} ${product.price.sales.currency}</g:sale_price>
+    <iselse/>
+        <g:price>${product.price.sales.decimalPrice} ${product.price.sales.currency}</g:price>
+    </isif>
+    <isif condition="${product.attributes && product.attributes.length > 0}">
+        <isloop items="${product.attributes}" var="attributeGroup" status="level1LoopState">
+            <isif condition="${attributeGroup.ID === 'natg'}">
+                <isloop items="${attributeGroup.attributes}" var="attributes" status="level2LoopState">
+                    <isif condition="${attributes.label === 'gtin'}">
+                        <isloop items="${attributes.value}" var="value" status="level3LoopState">
+                            <g:gtin>${value}</g:gtin>
+                        </isloop>
+                    </isif>
+                </isloop>
+            </isif>
+        </isloop>
+    </isif>
+    <g:custom_label_0>${dw.util.StringUtils.stringToXml(product.brand)}</g:custom_label_0> 
+    <g:brand>The Body Shop Brazil</g:brand>
+    <g:google_product_category>473</g:google_product_category>
+</item>
