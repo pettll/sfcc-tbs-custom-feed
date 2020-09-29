@@ -62,7 +62,7 @@ server.get('Item',  function (req, res, next) {
 
     try {
         product = ProductFactory.get(productTileParams);
-        name = urlHelper.removeDiacritics(product.productName).replace(/\s+/g,"-");
+        name = urlHelper.removeDiacritics(product.productName).replace(/\s+/g,"-").toLowerCase();
     } catch (e) {
         product = false;
     }

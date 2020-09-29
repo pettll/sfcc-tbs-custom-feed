@@ -2,7 +2,7 @@
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
 <channel>
 <title>The Body Shop</title>
-<link>http://www.thebodyshop.com.br</link>
+<link>https://www.thebodyshop.com.br</link>
 <description>A The Body Shop vive intensamente seus valores, são eles que conduzem todas as ações do dia a dia e norteiam a história da marca.</description>
 <isloop items="${pdict.productSearch.productIds}" var="productSearch">
     <isinclude url="${URLUtils.url('Feed-Item', 'pid', productSearch.productID, 'swatches', false, 'ratings', false)}" />

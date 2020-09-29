@@ -6,7 +6,11 @@
     <g:title>${dw.util.StringUtils.stringToXml(product.productName)}</g:title>
     <g:description>${dw.util.StringUtils.stringToXml(product.longDescription)}</g:description>
     <g:link>https://www.thebodyshop.com.br/p/${name}/${product.id}</g:link>
-    <g:image_link>https://production-na01-natura.demandware.net${product.images.large[0].url}</g:image_link>
+    <isif condition="${product.image.large}">
+        <g:image_link>${product.images.large[0].absURL}</g:image_link> 
+    <iselse/>
+        <g:image_link>${product.images.medium[0].absURL}</g:image_link>
+    </isif>
     <g:condition>new</g:condition>
     <isif condition="${product.available}">
         <g:availability>in stock</g:availability>
@@ -22,18 +26,8 @@
     <iselse/>
         <g:price>${product.price.sales.decimalPrice} ${product.price.sales.currency}</g:price>
     </isif>
-    <isif condition="${product.attributes && product.attributes.length > 0}">
-        <isloop items="${product.attributes}" var="attributeGroup" status="level1LoopState">
-            <isif condition="${attributeGroup.ID === 'natg'}">
-                <isloop items="${attributeGroup.attributes}" var="attributes" status="level2LoopState">
-                    <isif condition="${attributes.label === 'gtin'}">
-                        <isloop items="${attributes.value}" var="value" status="level3LoopState">
-                            <g:gtin>${value}</g:gtin>
-                        </isloop>
-                    </isif>
-                </isloop>
-            </isif>
-        </isloop>
+    <isif condition="${product.custom.natg_gtin != null}">
+        <g:gtin>${product.custom.natg_gtin}</g:gtin>
     </isif>
     <g:custom_label_0>${dw.util.StringUtils.stringToXml(product.brand)}</g:custom_label_0> 
     <g:brand>The Body Shop Brazil</g:brand>
